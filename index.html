@@ -16,11 +16,10 @@
 
     <main class="container">
       <video class="movie">
-        <source src="./assets/Coffee - 45358.mp4" />
+        <source src="./assets/coffee.mp4" />
       </video>
 
       <button id="playButton">Play/Pause</button>
-      <button id="muteButton">Mute/Unmute</button>
     </main>
 
     <h2>Comments</h2>
@@ -262,6 +261,15 @@
       </li>
     </ul>
 
-    <script type="module" src="./assets/index.ts"></script>
+    <script>
+      const video = document.getElementsByClassName("movie")// Toma el primer elemento que coincida con
+      //lo especificado, prefiero usar getElementsByClassName
+      const button = document.querySelector("button")
+      // prefiero usar getElementsById
+      console.log(video.currentSrc)
+      button.onclick = () => video.play; // Todos los elementos
+      
+      //del DOM tiene una API, en este caso un metodo de API de los video es play
+    </script>
   </body>
 </html>
