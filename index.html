@@ -262,12 +262,12 @@
     </ul>
 
     <script>
-      const video = document.getElementsByClassName("movie")// Toma el primer elemento que coincida con
+      const video = document.querySelector("video")// Toma el primer elemento que coincida con
       //lo especificado, prefiero usar getElementsByClassName
       const button = document.querySelector("button")
       // prefiero usar getElementsById
-      console.log(video.currentSrc)
-      button.onclick = () => video.play; // Todos los elementos
+      
+      button.onclick = () => video.play(); // Todos los elementos
       
       //del DOM tiene una API, en este caso un metodo de API de los video es play
     </script>
