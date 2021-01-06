@@ -7,7 +7,8 @@ const button = document.getElementById("playButton")
 // prefiero usar getElementsById
 const buttonMute = document.getElementById("muteButton")
 
-const player = new MediaPlayer({el: video, plugins: [new AutoPlay()]});// Objeto de tipo MediaPlayer que se crea recibiendo un objeto
+const player = new MediaPlayer({el: video, plugins: [//new AutoPlay()
+]});// Objeto de tipo MediaPlayer que se crea recibiendo un objeto
 
 button.onclick = () => player.tooglePlay() //Arrow function para reproducir y pausar el video
 buttonMute.onclick = () => player.toogleMute()
