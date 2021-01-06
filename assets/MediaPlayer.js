@@ -31,4 +31,16 @@ MediaPlayer.prototype.tooglePlay = function(){//Metodo pausa/reproducir segun pr
 MediaPlayer.prototype.mute = function(){
     this.media.muted = true; 
 }
+MediaPlayer.prototype.unmute = function(){
+    this.media.muted = false; 
+}
+MediaPlayer.prototype.toogleMute = function(){//Metodo mutear/no mutear segun propiedad muted
+    
+    if(this.media.muted){
+        this.unmute();
+    }
+    else{
+        this.mute();
+    }// El metodo pausa al HTMLMediaElement(al video)
+}
 export default MediaPlayer;
