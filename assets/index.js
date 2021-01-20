@@ -18,3 +18,9 @@ buttonMute.onclick = () => player.toogleMute()
 // player ejecuta su metodo play, que ejecuta el metodo play de los HTMLMediaElement
 
 //del DOM tiene una API, en este caso un metodo de API de los video es play</script>
+
+// if('serviceWorker' in navigator){
+//      navigator.serviceWorker.register('/sw.js').catch(error =>{
+//           console.log(error.message)
+//      })
+// }
