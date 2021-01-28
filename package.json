@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "live-server"
+    "start": "parcel index.html"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,12 @@
   "author": "Sebastian Rodriguez Ardila",
   "license": "MIT",
   "devDependencies": {
-    "live-server": "^1.2.1"
-  }
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3"
+  },
+  "browserlist": [
+    "last 1 Chrome version"
+  ]
 }
