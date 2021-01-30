@@ -117,187 +117,185 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"assets/MediaPlayer.js":[function(require,module,exports) {
+})({"assets/MediaPlayer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
 
-function MediaPlayer(config) {
-  // Recibe un objeto de configuración
-  this.media = config.el; //Especificando quien sera el this.media, en este caso video
+var MediaPlayer =
+/** @class */
+function () {
+  function MediaPlayer(config) {
+    this.media = config.el; //Especificando quien sera el this.media, en este caso video
 
-  this.plugins = config.plugins || []; // Establecer plugins e inicializarlos
+    this.plugins = config.plugins || []; // Establecer plugins e inicializarlos
 
-  this._initPlugins(); //Invocación del metodo para iniciarlizar plugins
-
-} //Clase (recordar que en JS no hay clases)
-//en realidad es un objeto y pasamos su herencia prototipal
+    this.initPlugins(); //Invocación del metodo para iniciarlizar plugins
+  } //en realidad es un objeto y pasamos su herencia prototipal
 
 
-MediaPlayer.prototype._initPlugins = function () {
-  var _this = this;
+  MediaPlayer.prototype.initPlugins = function () {
+    var _this = this;
 
-  this.plugins.forEach(function (plugin) {
-    plugin.run(_this); //Para cada plugin, lo que hara sera correrlo(pudo ser cualquier nombre no solo run) enviando la instancia (el video y su info)
-  });
-};
+    this.plugins.forEach(function (plugin) {
+      plugin.run(_this); //Para cada plugin, lo que hara sera correrlo(pudo ser cualquier nombre no solo run) enviando la instancia (el video y su info)
+    });
+  };
 
-MediaPlayer.prototype.play = function () {
-  //Metodo play de los objetos MediaPlayer
-  this.media.play(); // El metodo reproduce al HTMLMediaElement(al video)
-};
+  MediaPlayer.prototype.play = function () {
+    this.media.play(); // El metodo reproduce al HTMLMediaElement(al video)
+  };
 
-MediaPlayer.prototype.pause = function () {
-  //Metodo pausa de los objetos MediaPlayer
-  this.media.pause(); // El metodo pausa al HTMLMediaElement(al video)
-};
+  MediaPlayer.prototype.pause = function () {
+    this.media.pause(); // El metodo pausa al HTMLMediaElement(al video)
+  };
 
-MediaPlayer.prototype.tooglePlay = function () {
-  //Metodo pausa/reproducir segun propiedad paused
-  if (this.media.paused) {
-    this.play();
-  } else {
-    this.pause();
-  } // El metodo pausa al HTMLMediaElement(al video)
+  MediaPlayer.prototype.tooglePlay = function () {
+    if (this.media.paused) {
+      this.play();
+    } else {
+      this.pause();
+    } // El metodo pausa al HTMLMediaElement(al video)
 
-};
+  };
 
-MediaPlayer.prototype.mute = function () {
-  this.media.muted = true;
-};
+  MediaPlayer.prototype.mute = function () {
+    this.media.muted = true;
+  };
 
-MediaPlayer.prototype.unmute = function () {
-  this.media.muted = false;
-};
+  MediaPlayer.prototype.unmute = function () {
+    this.media.muted = false;
+  };
 
-MediaPlayer.prototype.toogleMute = function () {
-  //Metodo mutear/no mutear segun propiedad muted
-  if (this.media.muted) {
-    this.unmute();
-  } else {
-    this.mute();
-  } // El metodo pausa al HTMLMediaElement(al video)
+  MediaPlayer.prototype.toogleMute = function () {
+    if (this.media.muted) {
+      this.unmute();
+    } else {
+      this.mute();
+    } // El metodo pausa al HTMLMediaElement(al video)
 
-};
+  };
 
-var _default = MediaPlayer;
-exports.default = _default;
-},{}],"assets/plugins/AutoPlay.js":[function(require,module,exports) {
+  return MediaPlayer;
+}(); //Clase (recordar que en JS no hay clases)
+
+
+exports.default = MediaPlayer;
+},{}],"assets/plugins/AutoPlay.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); //Al darle sobre la función la convertimos en una clase
+
+var AutoPlay =
+/** @class */
+function () {
+  function AutoPlay() {}
+
+  AutoPlay.prototype.run = function (player) {
+    if (!player.media.muted) {
+      player.media.muted = true; //Exepcion para dr autoplay a un video, este debe estar mudo
+    }
+
+    player.play();
+  };
+
+  return AutoPlay;
+}();
+
+exports.default = AutoPlay;
+},{}],"assets/plugins/AutoPause.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
 
-function AutoPlay() {}
-
-AutoPlay.prototype.run = function (player) {
-  player.mute(); //Exepcion para dr autoplay a un video, este debe estar mudo
-
-  player.play();
-};
-
-var _default = AutoPlay;
-exports.default = _default;
-},{}],"assets/plugins/AutoPause.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var AutoPause = /*#__PURE__*/function () {
+var AutoPause =
+/** @class */
+function () {
   function AutoPause() {
-    _classCallCheck(this, AutoPause);
-
     this.threshold = 0.25;
     this.handleIntersection = this.handleIntersection.bind(this); //Mantener el this a la instancia del plugin y no al objeto que la usa, en este caso window 
 
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
   }
 
-  _createClass(AutoPause, [{
-    key: "run",
-    value: function run(player) {
-      this.player = player;
-      var observer = new IntersectionObserver(this.handleIntersection, {
-        threshold: this.threshold //umbral del objeto en el contenedor para realizar el aviso, si ha pasado
-        //el umbral dejando el video este avisara y si se acerca al umbral llegando al video tambien avisara, en este caso 25%     
+  AutoPause.prototype.run = function (player) {
+    this.player = player;
+    var observer = new IntersectionObserver(this.handleIntersection, {
+      threshold: this.threshold //umbral del objeto en el contenedor para realizar el aviso, si ha pasado
+      //el umbral dejando el video este avisara y si se acerca al umbral llegando al video tambien avisara, en este caso 25%     
 
-      }); //API del DOM para observar la posición a la quee sta el observador
-      //Primer elemento un handler que avisa una intersección del elemento observado y 
-      //el segundo un elemento de configuracion
+    }); //API del DOM para observar la posición a la quee sta el observador
+    //Primer elemento un handler que avisa una intersección del elemento observado y 
+    //el segundo un elemento de configuracion
 
-      observer.observe(this.player.media); //el observador empezara a observar el media, siendo el contenedor la pantalla
+    observer.observe(this.player.media); //el observador empezara a observar el media, siendo el contenedor la pantalla
 
-      document.addEventListener("visibilitychange", this.handleVisibilityChange); // metodo para saber si el usuario
-      //se encuentra en la pestaña(sitio web) o no.
+    document.addEventListener("visibilitychange", this.handleVisibilityChange); // metodo para saber si el usuario
+    //se encuentra en la pestaña(sitio web) o no.
+  };
+
+  AutoPause.prototype.handleIntersection = function (entries) {
+    var entry = entries[0]; // entry unico en la lista
+
+    var isVisible = entry.intersectionRatio >= this.threshold;
+
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
     }
-  }, {
-    key: "handleIntersection",
-    value: function handleIntersection(entries) {
-      //handler hecho un metodo para ser agregado a la clase, recibe los entries u objetos a observar
-      var entry = entries[0]; // entry unico en la lista
+  };
 
-      var isVisible = entry.intersectionRatio >= this.threshold;
+  AutoPause.prototype.handleVisibilityChange = function () {
+    var isVisible = document.visibilityState === "visible";
 
-      if (isVisible) {
-        this.player.play();
-      } else {
-        this.player.pause();
-      }
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
     }
-  }, {
-    key: "handleVisibilityChange",
-    value: function handleVisibilityChange() {
-      var isVisible = document.visibilityState === "visible";
-
-      if (isVisible) {
-        this.player.play();
-      } else {
-        this.player.pause();
-      }
-    }
-  }]);
+  };
 
   return AutoPause;
 }();
 
-var _default = AutoPause;
-exports.default = _default;
-},{}],"assets/index.js":[function(require,module,exports) {
+exports.default = AutoPause;
+},{}],"assets/index.ts":[function(require,module,exports) {
 "use strict";
 
-var _MediaPlayer = _interopRequireDefault(require("./MediaPlayer.js"));
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
 
-var _AutoPlay = _interopRequireDefault(require("./plugins/AutoPlay.js"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _AutoPause = _interopRequireDefault(require("./plugins/AutoPause.js"));
+var MediaPlayer_1 = __importDefault(require("./MediaPlayer"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var AutoPlay_1 = __importDefault(require("./plugins/AutoPlay")); //Plugin que crearemos para hacer autoplay
 
-//Plugin que crearemos para hacer autoplay
-//Plugin que crearemos para hacer autopause
+
+var AutoPause_1 = __importDefault(require("./plugins/AutoPause")); //Plugin que crearemos para hacer autopause
+
+
 var video = document.querySelector("video"); // Toma el primer elemento que coincida con
 //lo especificado, prefiero usar getElementsByClassName
 
 var button = document.getElementById("playButton"); // prefiero usar getElementsById
 
 var buttonMute = document.getElementById("muteButton");
-var player = new _MediaPlayer.default({
+var player = new MediaPlayer_1.default({
   el: video,
-  plugins: [new _AutoPlay.default(), new _AutoPause.default()]
+  plugins: [new AutoPlay_1.default(), new AutoPause_1.default()]
 }); // Objeto de tipo MediaPlayer que se crea recibiendo un objeto
 
 button.onclick = function () {
@@ -315,7 +313,7 @@ buttonMute.onclick = function () {
 //           console.log(error.message)
 //      })
 // }
-},{"./MediaPlayer.js":"assets/MediaPlayer.js","./plugins/AutoPlay.js":"assets/plugins/AutoPlay.js","./plugins/AutoPause.js":"assets/plugins/AutoPause.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./MediaPlayer":"assets/MediaPlayer.ts","./plugins/AutoPlay":"assets/plugins/AutoPlay.ts","./plugins/AutoPause":"assets/plugins/AutoPause.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -343,7 +341,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63193" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65282" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -519,5 +517,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/index.js"], null)
-//# sourceMappingURL=/assets.8f4429fc.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/index.ts"], null)
+//# sourceMappingURL=/assets.71ddc51b.js.map

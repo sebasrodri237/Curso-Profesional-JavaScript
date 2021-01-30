@@ -1,4 +1,9 @@
+import MediaPlayer from '../MediaPlayer';
+
 class AutoPause {
+    private threshold: number;
+    player: MediaPlayer;
+    
     constructor(){
         this.threshold = 0.25
         this.handleIntersection = this.handleIntersection.bind(this)//Mantener el this a la instancia del plugin y no al objeto que la usa, en este caso window 
@@ -17,10 +22,10 @@ class AutoPause {
         document.addEventListener("visibilitychange", this.handleVisibilityChange)// metodo para saber si el usuario
         //se encuentra en la pestaña(sitio web) o no.
     }
-    handleIntersection(entries){//handler hecho un metodo para ser agregado a la clase, recibe los entries u objetos a observar
+    private handleIntersection(entries: IntersectionObserverEntry[]){//handler hecho un metodo para ser agregado a la clase, recibe los entries u objetos a observar
         const entry = entries[0]// entry unico en la lista
         
-        const isVisible = entry.intersectionRatio >= this.threshold
+        const isVisible = entry.intersectionRatio >= this.threshold;
 
         if (isVisible){
             this.player.play()
@@ -29,8 +34,8 @@ class AutoPause {
             this.player.pause()
         }
     }
-    handleVisibilityChange(){
-        const isVisible = document.visibilityState ===  "visible"
+    private handleVisibilityChange(){
+        const isVisible = document.visibilityState ===  "visible";
         
         if (isVisible){
             this.player.play()

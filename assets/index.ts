@@ -1,28 +1,26 @@
-import MediaPlayer from '@sparragus/platzimediaplayer';
-import AutoPlay from '@sparragus/platzimediaplayer/lib/plugins/AutoPlay';
-import AutoPause from '@sparragus/platzimediaplayer/lib/plugins/AutoPause';
-import Ads from '@sparragus/platzimediaplayer/lib/plugins/Ads';
+import MediaPlayer from './MediaPlayer';
+import AutoPlay from './plugins/AutoPlay'//Plugin que crearemos para hacer autoplay
+import AutoPause from './plugins/AutoPause'//Plugin que crearemos para hacer autopause
 
-const video = document.querySelector('video');
-const player = new MediaPlayer({
-  el: video,
-  plugins: [new AutoPlay(), new AutoPause(), new Ads()],
-});
 
-const playButton: HTMLElement = document.querySelector('#playButton');
-playButton.onclick = () => player.togglePlay();
+const video = document.querySelector("video")// Toma el primer elemento que coincida con
+//lo especificado, prefiero usar getElementsByClassName
+const button: HTMLElement = document.getElementById("playButton")
+// prefiero usar getElementsById
+const buttonMute: HTMLElement = document.getElementById("muteButton")
 
-const muteButton: HTMLElement = document.querySelector('#muteButton');
-muteButton.onclick = () => {
-  if (player.media.muted) {
-    player.unmute();
-  } else {
-    player.mute();
-  }
-};
+const player = new MediaPlayer({el: video, plugins: [new AutoPlay(), new AutoPause()]});
+// Objeto de tipo MediaPlayer que se crea recibiendo un objeto
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(error => {
-    console.log(error.message);
-  });
-}
+button.onclick = () => player.tooglePlay() //Arrow function para reproducir y pausar el video
+buttonMute.onclick = () => player.toogleMute()
+     // Cuando se de click, el objeto
+// player ejecuta su metodo play, que ejecuta el metodo play de los HTMLMediaElement
+
+//del DOM tiene una API, en este caso un metodo de API de los video es play</script>
+
+// if('serviceWorker' in navigator){
+//      navigator.serviceWorker.register('/sw.js').catch(error =>{
+//           console.log(error.message)
+//      })
+// }
